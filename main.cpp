@@ -6,11 +6,6 @@
 
 int main(int argc, char** argv)
 {
-	for (int i = 0; i < strlen(argv[1]); i++)
-	{
-		printf("%x", argv[1][i]);
-	}
-	std::cout << std::endl;
 	if (argc != 2)
 	{
 		std::cerr << "File to build" << std::endl;
