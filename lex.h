@@ -23,6 +23,7 @@ namespace lex
 		token::Token* scan();
 		void reserve(token::Tag tag, std::string attribute);
 		bool contains(const std::string& word);
+		int get_num_value(const char& num);
 	};
 }
 
