@@ -5,16 +5,16 @@ using namespace lex;
 #define DEBUG 1
 
 Lexer::Lexer(std::string file)
-	: line_number{1}
+	: line_number{ 1 }
 {
 	build_file.open(file);
-	
+
 	if (!build_file)
 	{
 		std::cerr << "Failed to open file to lex" << std::endl;
 		std::exit(1);
 	}
-	
+
 
 #if DEBUG
 	std::cout << "success" << std::endl;
@@ -33,9 +33,35 @@ void Lexer::reserve(token::Tag tag, std::string attribute)
 	words_map[attribute] = token::Word{ attribute };
 }
 
+int Lexer::get_num_value(const char& num)
+{
+	switch (num)
+	{
+	case '0':
+		return 0;
+	case '1':
+		return 1;
+	case '2':
+		return 2;
+	case '3':
+		return 3;
+	case '4':
+		return 4;
+	case '5':
+		return 5;
+	case '6':
+		return 6;
+	case '7':
+		return 7;
+	case '8':
+		return 8;
+	case '9':
+		return 9;
+	}
+}
+
 token::Token* Lexer::scan()
 {
-	std::cout << "here" << std::endl;
 	std::string input = "";
 	for (; std::getline(buffer, input); )
 	{
@@ -59,8 +85,7 @@ token::Token* Lexer::scan()
 					int value = 0;
 					do
 					{
-						std::cout << "value detected: " << input[i] << std::endl;
-						value = std::atoi((const char*)&input[i]);
+						value = value * 10 + get_num_value(input[i]);
 #if DEBUG
 						std::cout << "value: " << value << std::endl;
 #endif
@@ -71,7 +96,7 @@ token::Token* Lexer::scan()
 #if DEBUG
 					std::cout << "Num: " << value << std::endl;
 #else
-					return new token::Num{value};
+					return new token::Num{ value };
 #endif
 				}
 				else
@@ -93,11 +118,11 @@ token::Token* Lexer::scan()
 
 		input = "";
 	}
-	
+
 	return nullptr;
 }
 
 bool Lexer::contains(const std::string& word)
 {
-	return words_map.find(word) != words_map.end() ? true : false;
+	return words_map.find(word) != words_map.end();
 }
