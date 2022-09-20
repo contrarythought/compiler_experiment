@@ -60,8 +60,9 @@ int Lexer::get_num_value(const char& num)
 	}
 }
 
-token::Token* Lexer::scan()
+std::vector<token::Token> Lexer::scan()
 {
+	std::vector<token::Token> tokens;
 	std::string input = "";
 	for (; std::getline(buffer, input); )
 	{
@@ -96,7 +97,7 @@ token::Token* Lexer::scan()
 #if DEBUG
 					std::cout << "Num: " << value << std::endl;
 #else
-					return new token::Num{ value };
+					tokens.push_back(token::Num{value});
 #endif
 				}
 				else
@@ -110,7 +111,7 @@ token::Token* Lexer::scan()
 #if DEBUG
 					std::cout << "ID: " << id_buf << std::endl;
 #else
-					return contains(id_buf) ? &words_map[id_buf] : new token::Word{ id_buf };
+					tokens.push_back(contains(id_buf) ? words_map[id_buf] : token::Word{ id_buf });
 #endif
 				}
 			}
@@ -119,7 +120,7 @@ token::Token* Lexer::scan()
 		input = "";
 	}
 
-	return nullptr;
+	return tokens;
 }
 
 bool Lexer::contains(const std::string& word)
