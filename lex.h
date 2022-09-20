@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_map>
+#include <vector>
 #include "Token.h"
 
 namespace lex
@@ -20,7 +21,7 @@ namespace lex
 
 	public:
 		Lexer(std::string file);
-		token::Token* scan();
+		std::vector<token::Token> scan();
 		void reserve(token::Tag tag, std::string attribute);
 		bool contains(const std::string& word);
 		int get_num_value(const char& num);
